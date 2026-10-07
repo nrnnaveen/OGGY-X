@@ -1,0 +1,21 @@
+# Python bytecode and cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Environments
+.venv/
+env/
+venv/
+ENV/
+
+# Temporary audio and server logs
+static/audio_cache/*
+!static/audio_cache/.gitkeep
+server.log
+*.log
+
+# Local user configs (keep default template)
+# config.json
+
