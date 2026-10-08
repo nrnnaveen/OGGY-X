@@ -35,6 +35,10 @@
 - **🧠 Hybrid Offline/Online Intelligence**:
   - **Instant Offline Responses**: Curated knowledge base for cockroach lore (Joey, Dee Dee, Marky), cousin Jack, jokes, witty banters, and clock/calendar info.
   - **Google Gemini Fallback (Optional)**: Automatically falls back to Gemini 2.5 Flash for open-ended questions when an API key is provided.
+- **📱 Fully Mobile-Friendly & PWA-Ready**:
+  - Automatically adapts to smartphones and tablets in portrait and landscape modes with safe-area notch support (`env(safe-area-inset)`).
+  - Touch-based 3D gaze tracking (Oggy follows your finger across the touchscreen).
+  - Virtual keyboard adaptation and prevention of iOS auto-zoom bugs.
 - **🚀 Local App Launcher**: Launch desktop utilities (Calculator, Terminal, Web Browser, Files) directly using natural voice or text commands.
 - **🌊 Live Audio Visualizer**: Pulsing audio frequency bars during listening and speaking states.
 
@@ -149,19 +153,58 @@ OGGY X works **100% offline out-of-the-box** for all built-in queries. To allow 
 
 ---
 
+## 🌐 Cloud Deployment Guide
+
+You can easily deploy **OGGY X** to the cloud so anyone can access it directly from their mobile phone or desktop browser.
+
+> [!IMPORTANT]
+> Mobile browsers (iOS Safari, Android Chrome) strictly require **HTTPS** for microphone access. All platforms recommended below provide **free automatic HTTPS**!
+
+### Option 1: Render (Recommended — Free & Easiest)
+1. Push this repository to your GitHub account.
+2. Go to [Render.com](https://render.com) and create a free account.
+3. Click **New +** → **Web Service** and select your GitHub repository.
+4. Set the following fields:
+   - **Runtime**: `Python 3`
+   - **Build Command**: `pip install -r requirements.txt`
+   - **Start Command**: `uvicorn server:app --host 0.0.0.0 --port $PORT`
+5. *(Optional)* Under **Environment Variables**, add `GEMINI_API_KEY` if you want Google Gemini fallback enabled by default.
+6. Click **Deploy Web Service**. Render gives you a secure live `https://*.onrender.com` URL in minutes!
+
+### Option 2: Railway
+1. Sign in to [Railway.app](https://railway.app).
+2. Click **New Project** → **Deploy from GitHub repo** and select your repository.
+3. Railway automatically detects the project using the included `Procfile` and `requirements.txt`.
+4. In your project settings, click **Generate Domain** under Networking to get your public HTTPS URL.
+
+### Option 3: Docker / Google Cloud Run / Fly.io
+A lightweight, production-ready `Dockerfile` is included in the root directory:
+```bash
+# Build the container
+docker build -t oggy-x-assistant .
+
+# Run locally or deploy to any container registry
+docker run -p 8000:8000 -e PORT=8000 oggy-x-assistant
+```
+
+---
+
 ## 📁 Project Structure
 
 ```
 oggy-x-assistant/
-├── server.py              # FastAPI Web & REST Server
+├── server.py              # FastAPI Web & REST Server (with CORS & dynamic PORT)
 ├── assistant_service.py   # Query router, edge-tts engine, and Gemini handler
 ├── knowledge_base.py      # Offline Q&A database and app launcher triggers
 ├── requirements.txt       # Python dependencies
-├── start.sh               # One-click startup script
+├── Procfile               # Cloud deployment process runner (Render/Railway/Heroku)
+├── Dockerfile             # Production container definition (Cloud Run/Fly.io)
+├── render.yaml            # Render 1-click deployment blueprint
+├── start.sh               # One-click local startup script
 ├── static/
-│   ├── index.html         # Main full-screen user interface
-│   ├── style.css          # Visual styling, HUD, glowing auras, and themes
-│   ├── app.js             # Parallax tracking, STT/TTS coordination, audio FX
+│   ├── index.html         # Responsive full-screen user interface (PWA meta tags)
+│   ├── style.css          # Visual styling, HUD, safe areas, and mobile breakpoints
+│   ├── app.js             # 3D parallax (mouse + touch), STT/TTS coordination
 │   ├── oggy-x.png         # Logo icon
 │   ├── screenshot-1.png   # Main assistant interface preview
 │   ├── screenshot-2.png   # Character reaction preview

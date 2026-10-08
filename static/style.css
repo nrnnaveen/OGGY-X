@@ -19,18 +19,22 @@
 }
 
 html, body {
-  width: 100vw;
+  width: 100%;
   height: 100vh;
+  height: 100dvh;
   overflow: hidden;
   background-color: var(--oggy-cyan-bg);
   font-family: 'Outfit', sans-serif;
   user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 
 #app-container {
   position: relative;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
+  height: 100dvh;
   overflow: hidden;
   background-color: var(--oggy-cyan-bg);
 }
@@ -83,7 +87,7 @@ html, body {
 /* ================= 2. MINIMAL SUBTLE STATE PILL ================= */
 .state-pill {
   position: fixed;
-  top: 28px;
+  top: max(28px, env(safe-area-inset-top, 28px));
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -127,7 +131,7 @@ html, body {
 /* ================= 3. SLEEK MINIMAL BOTTOM DOCK ================= */
 .bottom-dock {
   position: fixed;
-  bottom: 28px;
+  bottom: max(28px, env(safe-area-inset-bottom, 28px));
   left: 50%;
   transform: translateX(-50%);
   width: 90%;
@@ -284,8 +288,8 @@ html, body {
 /* Hands-Free Wake Indicator */
 .wake-indicator {
   position: fixed;
-  top: 28px;
-  right: 28px;
+  top: max(28px, env(safe-area-inset-top, 28px));
+  right: max(28px, env(safe-area-inset-right, 28px));
   display: flex;
   align-items: center;
   gap: 8px;
@@ -474,4 +478,135 @@ html, body {
 
 .hidden {
   display: none !important;
+}
+
+/* ================= 5. MOBILE & TABLET RESPONSIVENESS ================= */
+
+/* Portrait and square mobile screens (Phone portrait, iPad multitasking) */
+@media (max-width: 768px) and (orientation: portrait), (max-aspect-ratio: 1/1) {
+  .oggy-video {
+    object-fit: contain;
+    object-position: center 36%;
+  }
+}
+
+/* Small mobile screens (Smartphones <= 600px) */
+@media (max-width: 600px) {
+  .wake-indicator {
+    top: max(14px, env(safe-area-inset-top, 14px));
+    right: max(14px, env(safe-area-inset-right, 14px));
+    padding: 5px 12px;
+    font-size: 11px;
+    gap: 6px;
+  }
+
+  .state-pill {
+    top: calc(max(14px, env(safe-area-inset-top, 14px)) + 40px);
+    font-size: 11px;
+    padding: 5px 14px;
+    max-width: 88vw;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  .bottom-dock {
+    bottom: max(14px, env(safe-area-inset-bottom, 14px));
+    width: calc(100% - 24px);
+    max-width: 440px;
+  }
+
+  .dock-card {
+    gap: 6px;
+    padding: 4px 6px 4px 4px;
+    border-radius: 32px;
+  }
+
+  .dock-mic {
+    width: 42px;
+    height: 42px;
+  }
+
+  .dock-mic svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  #text-input {
+    font-size: 16px; /* Essential: Prevents iOS Safari auto-zoom on input focus */
+    padding: 6px 4px;
+    min-width: 0; /* Allows flex shrinking properly without overflowing */
+  }
+
+  #text-input::placeholder {
+    font-size: 13.5px;
+  }
+
+  .dock-send {
+    width: 34px;
+    height: 34px;
+  }
+
+  .dock-send svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .dock-pip {
+    width: 30px;
+    height: 30px;
+  }
+
+  .dock-pip svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .dock-gear {
+    width: 30px;
+    height: 30px;
+  }
+
+  .dock-gear svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .modal-card {
+    width: calc(100% - 32px);
+    padding: 20px 16px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+}
+
+/* Landscape mobile orientation */
+@media (max-height: 500px) and (orientation: landscape) {
+  .oggy-video {
+    object-fit: cover;
+    object-position: center bottom;
+  }
+
+  .bottom-dock {
+    bottom: max(8px, env(safe-area-inset-bottom, 8px));
+    max-width: 500px;
+  }
+
+  .dock-mic {
+    width: 38px;
+    height: 38px;
+  }
+
+  .wake-indicator {
+    top: max(8px, env(safe-area-inset-top, 8px));
+    right: max(8px, env(safe-area-inset-right, 8px));
+    padding: 4px 10px;
+    font-size: 11px;
+  }
+
+  .state-pill {
+    top: max(8px, env(safe-area-inset-top, 8px));
+    padding: 4px 12px;
+    font-size: 11px;
+  }
 }

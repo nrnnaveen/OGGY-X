@@ -8,13 +8,25 @@ from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 from assistant_service import process_user_query, get_gemini_api_key, set_gemini_api_key
 from knowledge_base import FEED_QA
 
 app = FastAPI(title="OGGY X Assistant API")
 
+# Enable Cross-Origin Resource Sharing (CORS) for flexible deployment
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_DIR = os.path.join(BASE_DIR, "static")
+AUDIO_CACHE_DIR = os.path.join(STATIC_DIR, "audio_cache")
+os.makedirs(AUDIO_CACHE_DIR, exist_ok=True)
 
 class AskRequest(BaseModel):
     query: str
@@ -77,4 +89,5 @@ app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("server:app", host="0.0.0.0", port=8000, reload=True)
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run("server:app", host="0.0.0.0", port=port, reload=True)

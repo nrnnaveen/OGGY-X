@@ -394,11 +394,34 @@ function playVoice(audioUrl, text, onComplete) {
   }
 }
 
-// ================= 5. 3D MOUSE PARALLAX =================
+// ================= 5. 3D CURSOR & TOUCH PARALLAX =================
+function updatePointerCoords(x, y) {
+  mouseX = x;
+  mouseY = y;
+}
+
 window.addEventListener("mousemove", (e) => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
+  updatePointerCoords(e.clientX, e.clientY);
 });
+
+// Mobile Touch Tracking: Oggy tilts and gazes towards where the finger touches/drags
+window.addEventListener("touchstart", (e) => {
+  if (e.touches && e.touches[0]) {
+    updatePointerCoords(e.touches[0].clientX, e.touches[0].clientY);
+  }
+}, { passive: true });
+
+window.addEventListener("touchmove", (e) => {
+  if (e.touches && e.touches[0]) {
+    updatePointerCoords(e.touches[0].clientX, e.touches[0].clientY);
+  }
+}, { passive: true });
+
+window.addEventListener("touchend", () => {
+  // Gracefully center gaze when touch ends
+  mouseX = window.innerWidth / 2;
+  mouseY = window.innerHeight / 2;
+}, { passive: true });
 
 function animateParallax() {
   const cx = window.innerWidth / 2;
@@ -840,12 +863,17 @@ function setupEvents() {
     }
   });
 
-  // Global user gesture trigger to unlock audio/mic permissions
-  document.addEventListener("click", () => {
+  // Global user gesture trigger to unlock audio/mic permissions on first interaction
+  function unlockOnFirstGesture() {
     if (!speechRecognizerRunning && wakeWordActive) {
       startSpeechRecognition();
     }
-  }, { once: true });
+    if (videoPrimary.paused) {
+      videoPrimary.play().catch(() => {});
+    }
+  }
+  document.addEventListener("click", unlockOnFirstGesture, { once: true });
+  document.addEventListener("touchstart", unlockOnFirstGesture, { once: true, passive: true });
 
   // Settings Modal
   btnSettings.addEventListener("click", () => {
