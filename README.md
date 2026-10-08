@@ -12,7 +12,7 @@
   <img src="https://img.shields.io/badge/Python-3.10%2B-blue?logo=python" alt="Python Version">
   <img src="https://img.shields.io/badge/FastAPI-0.115%2B-009688?logo=fastapi" alt="FastAPI">
   <img src="https://img.shields.io/badge/edge--tts-Neural%20Voice-orange" alt="Edge TTS">
-  <img src="https://img.shields.io/badge/License-MIT-green" alt="License">
+ 
 </p>
 
 ---
@@ -179,6 +179,3 @@ oggy-x-assistant/
 
 ---
 
-## 📄 License
-
-This project is licensed under the [MIT License](LICENSE).
