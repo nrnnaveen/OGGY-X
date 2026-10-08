@@ -1,4 +1,4 @@
-# ⚡ OGGY X — Interactive Cartoon AI Voice Assistant
+# OGGY X — Interactive Cartoon AI Voice Assistant
 
 <p align="center">
   <img src="static/oggy-x.png" alt="OGGY X Logo" width="120" style="border-radius: 50%;">
