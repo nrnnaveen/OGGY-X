@@ -149,43 +149,7 @@ OGGY X works **100% offline out-of-the-box** for all built-in queries. To allow 
 3. *Alternative:* Set the `GEMINI_API_KEY` environment variable in your terminal:
    ```bash
    export GEMINI_API_KEY="your-api-key-here"
-   ```
-
----
-
-## 🌐 Cloud Deployment Guide
-
-You can easily deploy **OGGY X** to the cloud so anyone can access it directly from their mobile phone or desktop browser.
-
-> [!IMPORTANT]
-> Mobile browsers (iOS Safari, Android Chrome) strictly require **HTTPS** for microphone access. All platforms recommended below provide **free automatic HTTPS**!
-
-### Option 1: Render (Recommended — Free & Easiest)
-1. Push this repository to your GitHub account.
-2. Go to [Render.com](https://render.com) and create a free account.
-3. Click **New +** → **Web Service** and select your GitHub repository.
-4. Set the following fields:
-   - **Runtime**: `Python 3`
-   - **Build Command**: `pip install -r requirements.txt`
-   - **Start Command**: `uvicorn server:app --host 0.0.0.0 --port $PORT`
-5. *(Optional)* Under **Environment Variables**, add `GEMINI_API_KEY` if you want Google Gemini fallback enabled by default.
-6. Click **Deploy Web Service**. Render gives you a secure live `https://*.onrender.com` URL in minutes!
-
-### Option 2: Railway
-1. Sign in to [Railway.app](https://railway.app).
-2. Click **New Project** → **Deploy from GitHub repo** and select your repository.
-3. Railway automatically detects the project using the included `Procfile` and `requirements.txt`.
-4. In your project settings, click **Generate Domain** under Networking to get your public HTTPS URL.
-
-### Option 3: Docker / Google Cloud Run / Fly.io
-A lightweight, production-ready `Dockerfile` is included in the root directory:
-```bash
-# Build the container
-docker build -t oggy-x-assistant .
-
-# Run locally or deploy to any container registry
-docker run -p 8000:8000 -e PORT=8000 oggy-x-assistant
-```
+   '''
 
 ---
 
@@ -222,3 +186,4 @@ oggy-x-assistant/
 
 ---
 
+**--Naveen**
