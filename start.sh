@@ -22,7 +22,7 @@ if [ ! -d ".venv" ]; then
     fi
 fi
 
-# Ensure assets are prepared
+# Ensure assets are prepared and done
 python3 setup_assets.py 2>/dev/null || true
 
 echo "Starting server on http://localhost:8000 ..."
